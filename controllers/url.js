@@ -1,14 +1,13 @@
-const shortid = require("shortid");
-const URL = require("../models/url");
-
-async function handleGenerateShortUrl(req, res) {
+import { generate } from "shortid";
+import URL from "../models/url.js";
+export async function handleGenerateShortUrl(req, res) {
     try {
         const { url } = req.body;
         if (!url) {
             return res.status(400).json({ error: "URL is required" });
         }
 
-        const shortId = shortid.generate(); 
+        const shortId = generate(); 
         const newUrl = await URL.create({
             miniId: shortId,
             redirectedId: url,
@@ -21,5 +20,3 @@ async function handleGenerateShortUrl(req, res) {
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
-
-module.exports = { handleGenerateShortUrl };

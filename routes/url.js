@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const { handleGenerateShortUrl } = require("../controllers/url.js");
+import { Router } from "express";
+const router = Router();
+import { handleGenerateShortUrl } from '../controllers/url.js';
 
 router.post("/", handleGenerateShortUrl);
 
-module.exports = router; 
+export default router; 

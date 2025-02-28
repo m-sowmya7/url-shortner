@@ -1,21 +1,23 @@
-const express = require('express');
+import express, { json } from 'express';
 const app = express();
-const { connectToMongoDb } = require('./mongo');
-const urlRoute = require('./routes/url');
-const URL = require('./models/url')
+import  {connectToMongoDb}  from './mongo.js';
+import urlRoute from './routes/url.js';
+import URL from './models/url.js';
 const PORT = 8001;
 
 connectToMongoDb('mongodb://127.0.0.1:27017/url-shortner').then(console.log('Connected to mongoDB'));
 
-app.use(express.json());
+app.use(json());
 app.use('/url', urlRoute);
 
 app.get('/:shortId', async (req, res) => {
     try {
+        // console.log("Converted timestamp:", new Date(1740746006542)); 
+
         const shortId = req.params.shortId;
         const entry = await URL.findOneAndUpdate(
             { miniId: shortId }, // Find document by shortId
-            { $push: { visitHistory: { timestamp: Date.now() } } }, // Log visit
+            { $push: { visitHistory: Date.now() }  }, // Log visit
             { new: true } // Return updated document
         );
 
