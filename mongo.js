@@ -47,7 +47,7 @@ export async function connectToMongoDb() {
     }
 
     client = new MongoClient(uri, {
-        serverSelectionTimeoutMS: 30000,  // Server selection timeout
+        serverSelectionTimeoutMS: 60000,  // Server selection timeout
         connectTimeoutMS: 45000,          // Connection timeout
         socketTimeoutMS: 45000,           // Socket timeout
     });
