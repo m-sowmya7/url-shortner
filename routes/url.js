@@ -1,7 +1,12 @@
-import { Router } from "express";
-const router = Router();
-import { handleGenerateShortUrl } from '../controllers/url.js';
+import express from 'express';
+import { createShortUrl, redirectToUrl } from '../controllers/url.js';
 
-router.post("/", handleGenerateShortUrl);
+const router = express.Router();
 
-export default router; 
+// Route to create a new shortened URL
+router.post('/url', createShortUrl);
+
+// Route to handle redirection based on miniId
+router.get('/:miniId', redirectToUrl);
+
+export default router;
