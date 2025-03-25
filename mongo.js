@@ -14,16 +14,12 @@ export async function connectToMongoDb() {
   }
 
   // Return existing client if already connected
-  // if (client) {
-  //     return client;
-  // }
-  if (client && client.topology && client.topology.isConnected()) {
-    return client;
+  if (client) {
+      return client;
   }
 
-
   client = new MongoClient(uri, {
-    serverSelectionTimeoutMS: 60000,  // Server selection timeout
+    serverSelectionTimeoutMS: 100000,  // Server selection timeout
     connectTimeoutMS: 45000,          // Connection timeout
     socketTimeoutMS: 45000,           // Socket timeout
   });
