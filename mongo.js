@@ -15,13 +15,13 @@ export async function connectToMongoDb() {
 
   // Return existing client if already connected
   if (client) {
-      return client;
+    return client;
   }
 
   client = new MongoClient(uri, {
-    serverSelectionTimeoutMS: 100000,  // Server selection timeout
-    connectTimeoutMS: 45000,          // Connection timeout
-    socketTimeoutMS: 45000,           // Socket timeout
+    serverSelectionTimeoutMS: 100000, // Server selection timeout
+    connectTimeoutMS: 45000,         // Connection timeout
+    socketTimeoutMS: 45000,          // Socket timeout
   });
 
   try {
@@ -31,5 +31,17 @@ export async function connectToMongoDb() {
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB Atlas:', error.message);
     throw error;
+  }
+}
+
+// ✅ MongoDB middleware to attach client to req
+export async function mongoMiddleware(req, res, next) {
+  try {
+    const client = await connectToMongoDb();
+    req.client = client;
+    next();
+  } catch (error) {
+    console.error('❌ Error connecting to MongoDB:', error.message);
+    res.status(500).json({ error: 'Database connection failed' });
   }
 }
